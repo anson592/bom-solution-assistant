@@ -1,0 +1,94 @@
+{
+  "project": "<示例项目-请勿照抄>",
+  "date": "2026-05-15",
+  "quantity": "2000套",
+  "total_quantity": "100000",
+  "batch_quantity": "5000",
+  "versions": [
+    "经济版",
+    "标准版",
+    "高性能版"
+  ],
+  "selected_version": "高性能版",
+  "ai_suggestion": "示例：高性能版 MCU 性能更强，建议产能爬坡阶段直接选用。具体选型应由 Layer 3 推导得出，不照搬此示例。",
+  "risk_tags": [
+    {
+      "tag": "主控芯片供货风险",
+      "level": "mid",
+      "desc": "示例：交期较长，建议提前备货"
+    },
+    {
+      "tag": "显示屏模组定制",
+      "level": "high",
+      "desc": "示例：触摸屏需确认 FPC 引脚定义"
+    }
+  ],
+  "items": [
+    {
+      "id": 1,
+      "category": "MCU",
+      "is_variant": true,
+      "func_impact": "主控性能直接影响 UI 流畅度和 WiFi/BLE 连接稳定性",
+      "exp_impact": "高性能 MCU 带来更流畅的触控响应和更快的无线连接",
+      "func_impact_label": "关键",
+      "exp_impact_label": "重要",
+      "user_value": 5,
+      "cost_tier": "high",
+      "note": "三版本 MCU 性能差异较大，影响整体体验",
+      "variants": [
+        {
+          "version": "经济版",
+          "brand": "<MCU_品牌>",
+          "package": "<封装>",
+          "part_number": "<低端MCU_型号>",
+          "description": "示例：低主频 RISC-V/Cortex-M0, 基础无线",
+          "price_mall": 8.5,
+          "mall_source": "立创商城",
+          "mall_url": "https://www.szlcsc.com/search.html?keyword=<低端MCU_型号>",
+          "price_ai": 12,
+          "ai_source": "博查",
+          "found": true,
+          "func_impact_score": 50,
+          "exp_impact_score": 50
+        },
+        {
+          "version": "标准版",
+          "brand": "<MCU_品牌>",
+          "package": "<封装>",
+          "part_number": "<中端MCU_型号>",
+          "description": "示例：双核, 中等主频, 基础 PSRAM",
+          "price_mall": 15.9,
+          "mall_source": "立创商城",
+          "mall_url": "",
+          "price_ai": 20,
+          "ai_source": "iqs",
+          "found": true,
+          "func_impact_score": 80,
+          "exp_impact_score": 80
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "category": "接口",
+      "is_variant": false,
+      "brand": "-",
+      "package": "SMD",
+      "part_number": "USB-C 插座 16P",
+      "description": "沉板 USB-C 插座, 16Pin, 支持 5A 大电流",
+      "price_mall": 1.5,
+      "mall_source": "经验估算",
+      "mall_url": "",
+      "price_ai": 2.5,
+      "ai_source": "经验预估",
+      "found": false,
+      "cost_tier": "low",
+      "func_impact": "USB-C 插座影响充电和数据传输稳定性",
+      "exp_impact": "插座手感和可靠性影响日常使用体验",
+      "func_impact_label": "一般",
+      "exp_impact_label": "一般",
+      "user_value": 3,
+      "note": "经验估算，建议实际询价"
+    }
+  ]
+}

@@ -1,0 +1,100 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "BOM Solution Assistant Output Schema",
+  "description": "bom-solution-assistant 询价标准输出格式，直接对接 report-template.html",
+  "type": "object",
+  "required": ["project", "date", "items"],
+  "properties": {
+    "project":        { "type": "string", "description": "项目名称" },
+    "date":           { "type": "string", "description": "查询日期 YYYY-MM-DD" },
+    "query_time":     { "type": "string", "description": "查询时间 HH:MM" },
+    "quantity":       { "type": "string", "description": "目标产量描述" },
+    "total_quantity": { "type": "string", "description": "总需求量，如 100000" },
+    "batch_quantity": { "type": "string", "description": "每批次数量，如 5000" },
+    "versions":       { "type": "array",  "items": { "type": "string" }, "description": "版本列表" },
+    "selected_version":{ "type": "string", "description": "用户选中版本" },
+    "ai_suggestion":  { "type": "string", "description": "AI推荐建议" },
+    "risk_tags": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "tag":  { "type": "string" },
+          "level": { "type": "string", "enum": ["high","mid","low"] },
+          "desc": { "type": "string" }
+        }
+      }
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "oneOf": [
+          { "$ref": "#/definitions/variant_item" },
+          { "$ref": "#/definitions/shared_item" }
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "variant_item": {
+      "required": ["id", "category", "is_variant", "variants"],
+      "properties": {
+        "id":           { "type": "integer" },
+        "category":     { "type": "string" },
+        "is_variant":   { "type": "boolean", "enum": [true] },
+        "func_impact":  { "type": "string" },
+        "exp_impact":   { "type": "string" },
+        "cost_tier":    { "type": "string", "enum": ["high","mid","low"] },
+        "note":         { "type": "string" },
+        "variants":     { "type": "array", "items": { "$ref": "#/definitions/variant" } }
+      }
+    },
+    "shared_item": {
+      "required": ["id", "category", "is_variant", "part_number"],
+      "properties": {
+        "id":             { "type": "integer" },
+        "category":       { "type": "string" },
+        "is_variant":     { "type": "boolean", "enum": [false] },
+        "brand":          { "type": "string" },
+        "package":        { "type": "string" },
+        "part_number":    { "type": "string" },
+        "description":    { "type": "string" },
+        "price_mall":     { "type": ["number", "null"], "description": "商城价（立创/华秋取最低，查不到留空）" },
+        "mall_source":    { "type": ["string", "null"], "description": "商城来源：立创商城 / 华秋商城 / 云汉芯城 / LCSC" },
+        "mall_url":       { "type": ["string", "null"], "format": "uri", "description": "商城链接（仅确认商城来源才有，可点击）" },
+        "price_ai":       { "type": ["number", "null"], "description": "AI价（博查/IQS，查不到留空）" },
+        "ai_source":      { "type": ["string", "null"], "description": "AI来源：博查 / iqs / 经验预估（无链接）" },
+        "price_unit":     { "type": ["number", "null"], "description": "小计（由 generate_report.py 自动计算，无需 LLM 填写）" },
+        "found":          { "type": "boolean", "description": "是否有任一真实价格（商城价或AI价）" },
+        "cost_ratio":     { "type": "number", "description": "成本占比 %（由 generate_report.py 自动计算，无需 LLM 填写）" },
+        "cost_tier":      { "type": "string" },
+        "func_impact":    { "type": "string" },
+        "exp_impact":     { "type": "string" },
+        "func_impact_label": { "type": "string" },
+        "exp_impact_label":  { "type": "string" },
+        "user_value":     { "type": "integer", "minimum": 1, "maximum": 5 },
+        "note":           { "type": "string" }
+      }
+    },
+    "variant": {
+      "required": ["version", "part_number"],
+      "properties": {
+        "version":          { "type": "string" },
+        "brand":            { "type": "string" },
+        "package":          { "type": "string" },
+        "part_number":      { "type": "string" },
+        "description":      { "type": "string" },
+        "price_mall":       { "type": ["number", "null"] },
+        "mall_source":      { "type": ["string", "null"] },
+        "mall_url":         { "type": ["string", "null"] },
+        "price_ai":         { "type": ["number", "null"] },
+        "ai_source":         { "type": ["string", "null"] },
+        "price_unit":       { "type": ["number", "null"], "description": "小计（脚本自动计算）" },
+        "found":            { "type": "boolean" },
+        "cost_ratio":       { "type": "number", "description": "成本占比 %（脚本自动计算）" },
+        "func_impact_score":  { "type": "integer" },
+        "exp_impact_score":   { "type": "integer" }
+      }
+    }
+  }
+}
