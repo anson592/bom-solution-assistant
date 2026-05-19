@@ -167,6 +167,13 @@ def normalize_data(data: dict) -> dict:
     for item in data.get("items") or []:
         _apply_aliases(item)
         if item.get("is_variant"):
+            variants = item.get("variants")
+            if not isinstance(variants, list):
+                raise TypeError(
+                    f"item id={item.get('id')} is_variant=true，"
+                    f"但 variants 是 {type(variants).__name__}，应为 list。"
+                    f"常见错误：把 variants 写成对象 {{\"经济版\": ...}}，应写成数组 [...]"
+                )
             for v in item.get("variants") or []:
                 _apply_aliases(v)
                 _sanitize_mall_fields(v)
@@ -259,6 +266,42 @@ def load_data(json_path: str) -> dict:
     with open(path, "r", encoding="utf-8") as f:
         data = json.load(f)
     return data
+
+
+def validate_schema(data: dict) -> None:
+    """JSON Schema 强校验：在 normalize 之前 fail-fast，避免错误结构生成损坏的 HTML。
+
+    退出码 2 专门用于 schema 校验失败（区别于退出码 1 的文件/模板错误）。
+    """
+    try:
+        import jsonschema
+    except ImportError:
+        print("⚠️  jsonschema 未安装，跳过 schema 校验（pip3 install jsonschema 可启用）", file=sys.stderr)
+        return
+
+    schema_path = SCRIPT_DIR / "schema" / "bom-output-schema.json"
+    if not schema_path.exists():
+        print(f"⚠️  schema 文件不存在: {schema_path}，跳过校验", file=sys.stderr)
+        return
+
+    with open(schema_path, "r", encoding="utf-8") as f:
+        schema = json.load(f)
+
+    validator = jsonschema.Draft7Validator(schema)
+    errors = list(validator.iter_errors(data))
+    if not errors:
+        return
+
+    print("❌ JSON Schema 校验失败，已阻止生成报告：", file=sys.stderr)
+    print(f"   共 {len(errors)} 处错误，展示前 5 处：\n", file=sys.stderr)
+    for e in errors[:5]:
+        path = "/".join(str(p) for p in e.absolute_path) or "(root)"
+        print(f"   位置: {path}", file=sys.stderr)
+        print(f"   原因: {e.message[:200]}", file=sys.stderr)
+        print(f"", file=sys.stderr)
+    print("修复指引：参考 schema/bom-input-example.json 的字段结构", file=sys.stderr)
+    print("特别注意：variants 必须是 JSON 数组 [...]，不能写成对象 {\"经济版\": ...}", file=sys.stderr)
+    sys.exit(2)
 
 
 def _inject_legacy(template: str, data: dict, json_path: str) -> str:
@@ -432,6 +475,7 @@ def main():
     # 加载
     template = load_template()
     data = load_data(json_path)
+    validate_schema(data)
     data = normalize_data(data)
 
     # 注入

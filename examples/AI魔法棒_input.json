@@ -1,0 +1,342 @@
+{
+  "project": "AI 魔法棒（户外探索版）",
+  "date": "2026-05-19",
+  "query_time": "15:30",
+  "quantity": "2000套",
+  "total_quantity": "20000",
+  "batch_quantity": "2000",
+  "versions": ["经济版", "标准版", "高性能版"],
+  "selected_version": "标准版",
+  "ai_suggestion": "首发推荐【标准版】：ESP32-P4 双核 RISC-V + AI 加速能撑住云端混合 AI 对话和数字人 30fps 流畅显示；1.69\" AMOLED 视觉冲击远超 IPS；9 轴 IMU + 双麦阵列对手势/语音体验提升明显；7.5W Qi 充电速度更可接受。整机 BOM ~¥187，建议零售 ¥499-699，性价比最佳。【经济版】适合首批小规模测试 MVP；【高性能版】RK3566 本地多模态 + 4 麦 + 15W 快充，留作旗舰款。",
+  "risk_tags": [
+    {"tag": "OV5640/OV5648 立创未上架", "level": "mid", "desc": "Sensor 类元件建议直接走 1688 一手代理或国产替代 SC500AI/GC5025，注意 MIPI 接口与镜头模组配套"},
+    {"tag": "ESP32-P4 量产档期", "level": "mid", "desc": "P4 上市较新，建议下单前确认乐鑫排产；备选 P4Mini 或 ESP32-S3 + 外挂 NPU"},
+    {"tag": "AMOLED 屏幕 MOQ", "level": "high", "desc": "1.69\"/2.0\" 异形 AMOLED 通常需 5K 片起订并支付 NRE 开模费 ¥3-8 万，建议先用方屏 IPS 验证"},
+    {"tag": "无线充电认证", "level": "mid", "desc": "Qi 认证（WPC）约 ¥4-6 万；如出海需 FCC/CE/PSE，整机认证预算 ¥15-20 万"},
+    {"tag": "户外防护等级", "level": "low", "desc": "魔法棒户外使用建议 IP54，结构件密封硅胶圈 ¥1-2 元/套，BOM 已含被动项"},
+    {"tag": "AI 后端服务成本", "level": "high", "desc": "云端 LLM + 视觉 API 调用费 ~¥0.5-2 元/用户/天，定价时需算进 LTV"}
+  ],
+  "items": [
+    {
+      "id": 1,
+      "category": "主控 SoC",
+      "is_variant": true,
+      "cost_tier": "high",
+      "user_value": "高",
+      "func_impact": "决定 AI 推理位置（云/边）、UI 流畅度、外设带宽上限",
+      "exp_impact": "影响数字人动画帧率、对话响应延迟、视觉识别速度",
+      "func_impact_label": "关键",
+      "exp_impact_label": "关键",
+      "note": "三档算力跨度大：MCU 级 → AP 级，决定整机定位",
+      "variants": [
+        {"version": "经济版", "brand": "ESPRESSIF(乐鑫)", "package": "Module", "part_number": "ESP32-S3-WROOM-1-N16R8", "description": "双核 240MHz + WiFi/BT，16MB Flash + 8MB PSRAM，依赖云端 AI", "price_mall": 22.5, "mall_source": "立创商城", "mall_url": "https://item.szlcsc.com/3198300.html", "price_ai": 24.0, "ai_source": "博查", "found": true, "func_impact_score": 55, "exp_impact_score": 55},
+        {"version": "标准版", "brand": "ESPRESSIF(乐鑫)", "package": "QFN", "part_number": "ESP32-P4NRW32", "description": "双核 RISC-V 400MHz + AI 加速 + MIPI CSI/DSI，边缘+云混合", "price_mall": 28.43, "mall_source": "立创商城", "mall_url": "https://item.szlcsc.com/23950580.html", "price_ai": 30.0, "ai_source": "博查", "found": true, "func_impact_score": 80, "exp_impact_score": 80},
+        {"version": "高性能版", "brand": "Rockchip(瑞芯微)", "package": "BGA", "part_number": "RK3566", "description": "四核 A55 1.8GHz + 1TOPS NPU，本地多模态推理，跑 Android/Linux", "price_mall": 63.68, "mall_source": "立创商城", "mall_url": "https://item.szlcsc.com/3329057.html", "price_ai": 68.0, "ai_source": "博查", "found": true, "func_impact_score": 100, "exp_impact_score": 95}
+      ]
+    },
+    {
+      "id": 2,
+      "category": "显示模组",
+      "is_variant": true,
+      "cost_tier": "high",
+      "user_value": "高",
+      "func_impact": "显示 AI 数字人 IP 形象、任务 UI、相机预览",
+      "exp_impact": "屏越大越清晰，数字人越萌；AMOLED 黑色更深、动效更润",
+      "func_impact_label": "关键",
+      "exp_impact_label": "关键",
+      "note": "异形 AMOLED 需 NRE，建议小批量先用方屏 IPS",
+      "variants": [
+        {"version": "经济版", "brand": "通用", "package": "Module", "part_number": "1.3\" IPS 240×240 ST7789", "description": "经济型 IPS 圆/方屏可选，SPI 接口，自带驱动 IC", "price_mall": null, "mall_source": "", "mall_url": "", "price_ai": 8.5, "ai_source": "经验预估", "found": true, "func_impact_score": 50, "exp_impact_score": 50},
+        {"version": "标准版", "brand": "和辉光电/京东方", "package": "FPC", "part_number": "1.69\" AMOLED 240×280 SH8601A", "description": "1.69 寸 AMOLED 圆形或方形可选，FPC 连接，色彩鲜艳", "price_mall": null, "mall_source": "", "mall_url": "", "price_ai": 28.0, "ai_source": "经验预估", "found": true, "func_impact_score": 85, "exp_impact_score": 90},
+        {"version": "高性能版", "brand": "京东方/深天马", "package": "FPC", "part_number": "2.0\" AMOLED 410×502 MIPI", "description": "2.0 寸 AMOLED 高分屏，MIPI DSI 接口，影院级显示", "price_mall": null, "mall_source": "", "mall_url": "", "price_ai": 55.0, "ai_source": "经验预估", "found": true, "func_impact_score": 100, "exp_impact_score": 100}
+      ]
+    },
+    {
+      "id": 3,
+      "category": "摄像头模组",
+      "is_variant": true,
+      "cost_tier": "high",
+      "user_value": "高",
+      "func_impact": "采集物品图像供 AI 多模态识别，触发游戏任务",
+      "exp_impact": "像素越高识别越准，AF 让对焦更快不挑距离",
+      "func_impact_label": "关键",
+      "exp_impact_label": "重要",
+      "note": "立创未上架 OV5640/OV5648，建议 1688 一手或国产替代",
+      "variants": [
+        {"version": "经济版", "brand": "OmniVision", "package": "DVP Module", "part_number": "OV2640", "description": "30 万-200 万可选，DVP 接口，ESP32-S3 原生支持", "price_mall": null, "mall_source": "", "mall_url": "", "price_ai": 12.0, "ai_source": "博查", "found": true, "func_impact_score": 55, "exp_impact_score": 55},
+        {"version": "标准版", "brand": "OmniVision", "package": "MIPI Module", "part_number": "OV5640", "description": "500 万像素，MIPI/DVP 双接口，含镜头模组", "price_mall": null, "mall_source": "", "mall_url": "", "price_ai": 45.0, "ai_source": "博查", "found": true, "func_impact_score": 85, "exp_impact_score": 80},
+        {"version": "高性能版", "brand": "OmniVision", "package": "MIPI Module + AF", "part_number": "OV5648", "description": "500 万像素 + 自动对焦镜头，户外近远兼顾", "price_mall": null, "mall_source": "", "mall_url": "https://detail.1688.com/offer/842240406263.html", "price_ai": 49.0, "ai_source": "博查", "found": true, "func_impact_score": 95, "exp_impact_score": 95}
+      ]
+    },
+    {
+      "id": 4,
+      "category": "麦克风",
+      "is_variant": true,
+      "cost_tier": "mid",
+      "user_value": "高",
+      "func_impact": "采集语音供 ASR/唤醒；多麦阵列提升降噪和远场能力",
+      "exp_impact": "户外嘈杂场景下多麦阵列对识别率提升显著",
+      "func_impact_label": "重要",
+      "exp_impact_label": "重要",
+      "note": "立创 INMP441 ¥58 偏离市场，已采用 1688 模块价",
+      "variants": [
+        {"version": "经济版", "brand": "MEMSensing", "package": "MEMS", "part_number": "MSM261S4030H0R ×1", "description": "单数字 MEMS 麦克风，安静室内可用", "price_mall": null, "mall_source": "", "mall_url": "", "price_ai": 1.8, "ai_source": "经验预估", "found": true, "func_impact_score": 50, "exp_impact_score": 45},
+        {"version": "标准版", "brand": "TDK InvenSense", "package": "MEMS", "part_number": "INMP441 ×2", "description": "双麦数字阵列降噪，户外可用", "price_mall": null, "mall_source": "", "mall_url": "", "price_ai": 9.0, "ai_source": "博查", "found": true, "func_impact_score": 80, "exp_impact_score": 80},
+        {"version": "高性能版", "brand": "TDK InvenSense", "package": "MEMS", "part_number": "ICS-43434 ×4", "description": "4 麦数字阵列，远场拾音 + 波束成形", "price_mall": null, "mall_source": "立创商城", "mall_url": "https://item.szlcsc.com/6577565.html", "price_ai": 72.0, "ai_source": "博查", "found": true, "func_impact_score": 100, "exp_impact_score": 95}
+      ]
+    },
+    {
+      "id": 5,
+      "category": "IMU 传感器",
+      "is_variant": true,
+      "cost_tier": "mid",
+      "user_value": "中",
+      "func_impact": "采集姿态/运动数据，识别挥动/翻转/指向等手势触发任务",
+      "exp_impact": "9 轴比 6 轴绝对朝向准确，户外探索更稳",
+      "func_impact_label": "重要",
+      "exp_impact_label": "重要",
+      "note": "立创 MPU-6050/ICM-20948 散料价偏高，按 2000 套量谈代理价",
+      "variants": [
+        {"version": "经济版", "brand": "TDK InvenSense", "package": "QFN", "part_number": "MPU-6050", "description": "6 轴：3 轴加速 + 3 轴陀螺，基础手势够用", "price_mall": null, "mall_source": "立创商城", "mall_url": "https://item.szlcsc.com/24852.html", "price_ai": 3.5, "ai_source": "博查", "found": true, "func_impact_score": 55, "exp_impact_score": 55},
+        {"version": "标准版", "brand": "TDK InvenSense", "package": "QFN", "part_number": "ICM-20948", "description": "9 轴：加 + 陀 + 磁，绝对朝向稳定", "price_mall": null, "mall_source": "立创商城", "mall_url": "https://item.szlcsc.com/772651.html", "price_ai": 22.0, "ai_source": "博查", "found": true, "func_impact_score": 85, "exp_impact_score": 80},
+        {"version": "高性能版", "brand": "Bosch(博世)", "package": "LGA", "part_number": "BMI270 + BMM350", "description": "BMI270 6 轴 + 独立磁力计，超低功耗 9 轴方案", "price_mall": 11.88, "mall_source": "立创商城", "mall_url": "https://item.szlcsc.com/3005172.html", "price_ai": 14.0, "ai_source": "博查", "found": true, "func_impact_score": 95, "exp_impact_score": 90}
+      ]
+    },
+    {
+      "id": 6,
+      "category": "Qi 无线充电接收",
+      "is_variant": true,
+      "cost_tier": "mid",
+      "user_value": "中",
+      "func_impact": "魔法棒回底座自动无线充电，免插拔",
+      "exp_impact": "功率越高充电越快，户外回家放下即充体验好",
+      "func_impact_label": "重要",
+      "exp_impact_label": "一般",
+      "note": "高性能版需 15W 才能匹配 2500mAh 大电池快充节奏",
+      "variants": [
+        {"version": "经济版", "brand": "RENESAS/IDT", "package": "WLCSP", "part_number": "P9221-RAHGI8 (5W)", "description": "5W Qi 接收，匹配 1000mAh 电池", "price_mall": null, "mall_source": "立创商城", "mall_url": "https://item.szlcsc.com/2248200.html", "price_ai": 15.0, "ai_source": "博查", "found": true, "func_impact_score": 60, "exp_impact_score": 50},
+        {"version": "标准版", "brand": "RENESAS/IDT", "package": "WLCSP", "part_number": "P9221-RAHGI8 (7.5W)", "description": "7.5W Qi 接收，兼容主流底座", "price_mall": null, "mall_source": "立创商城", "mall_url": "https://item.szlcsc.com/2248200.html", "price_ai": 18.0, "ai_source": "博查", "found": true, "func_impact_score": 75, "exp_impact_score": 70},
+        {"version": "高性能版", "brand": "ConvenientPower(昌芯)", "package": "QFN", "part_number": "CPS4041 (15W)", "description": "15W 快充接收，配合大电池快补能", "price_mall": null, "mall_source": "", "mall_url": "", "price_ai": 12.5, "ai_source": "博查", "found": true, "func_impact_score": 90, "exp_impact_score": 85}
+      ]
+    },
+    {
+      "id": 7,
+      "category": "电池",
+      "is_variant": true,
+      "cost_tier": "mid",
+      "user_value": "高",
+      "func_impact": "决定整机续航时间",
+      "exp_impact": "户外探索续航 < 3h 体验差，建议 ≥4h",
+      "func_impact_label": "关键",
+      "exp_impact_label": "重要",
+      "note": "锂聚合物含保护板，结构件",
+      "variants": [
+        {"version": "经济版", "brand": "通用", "package": "Pouch", "part_number": "3.7V 1000mAh LiPo", "description": "约 3 小时续航", "price_mall": null, "mall_source": "", "mall_url": "", "price_ai": 6.5, "ai_source": "经验预估", "found": true, "func_impact_score": 55, "exp_impact_score": 55},
+        {"version": "标准版", "brand": "通用", "package": "Pouch", "part_number": "3.7V 1500mAh LiPo", "description": "约 4 小时续航", "price_mall": null, "mall_source": "", "mall_url": "", "price_ai": 9.0, "ai_source": "经验预估", "found": true, "func_impact_score": 75, "exp_impact_score": 75},
+        {"version": "高性能版", "brand": "通用", "package": "Pouch", "part_number": "3.7V 2500mAh LiPo", "description": "约 5 小时续航，承受 NPU 高负载", "price_mall": null, "mall_source": "", "mall_url": "", "price_ai": 15.0, "ai_source": "经验预估", "found": true, "func_impact_score": 90, "exp_impact_score": 90}
+      ]
+    },
+    {
+      "id": 8,
+      "category": "音频功放/Codec",
+      "is_variant": true,
+      "cost_tier": "low",
+      "user_value": "中",
+      "func_impact": "TTS 语音输出与音效播放",
+      "exp_impact": "Codec 让音质更润，但小喇叭差异有限",
+      "func_impact_label": "一般",
+      "exp_impact_label": "一般",
+      "note": "高性能版双声道，需 Codec 配合",
+      "variants": [
+        {"version": "经济版", "brand": "ADI/Maxim", "package": "TQFN-16", "part_number": "MAX98357AETE+T", "description": "I2S Class-D 3.2W，单声道", "price_mall": 5.21, "mall_source": "立创商城", "mall_url": "https://item.szlcsc.com/978950.html", "price_ai": 6.0, "ai_source": "博查", "found": true, "func_impact_score": 60, "exp_impact_score": 55},
+        {"version": "标准版", "brand": "NS-Sound", "package": "MSOP", "part_number": "NS4150", "description": "国产单声道 D 类，性价比高", "price_mall": null, "mall_source": "", "mall_url": "", "price_ai": 0.8, "ai_source": "经验预估", "found": true, "func_impact_score": 65, "exp_impact_score": 60},
+        {"version": "高性能版", "brand": "Everest-semi + NS", "package": "QFN+MSOP", "part_number": "ES8388 + NS4263", "description": "Codec + 双声道功放，立体声", "price_mall": 3.41, "mall_source": "立创商城", "mall_url": "https://item.szlcsc.com/339918.html", "price_ai": 5.61, "ai_source": "博查", "found": true, "func_impact_score": 90, "exp_impact_score": 80}
+      ]
+    },
+    {
+      "id": 9,
+      "category": "喇叭",
+      "is_variant": true,
+      "cost_tier": "low",
+      "user_value": "中",
+      "func_impact": "声音输出器件",
+      "exp_impact": "户外环境需要更大音量",
+      "func_impact_label": "一般",
+      "exp_impact_label": "一般",
+      "note": "结构件",
+      "variants": [
+        {"version": "经济版", "brand": "通用", "package": "微型", "part_number": "8Ω 1W ×1", "description": "单声道小喇叭", "price_mall": null, "mall_source": "", "mall_url": "", "price_ai": 2.0, "ai_source": "经验预估", "found": true, "func_impact_score": 50, "exp_impact_score": 50},
+        {"version": "标准版", "brand": "通用", "package": "微型", "part_number": "8Ω 1.5W ×1", "description": "音量更大，户外可听", "price_mall": null, "mall_source": "", "mall_url": "", "price_ai": 3.5, "ai_source": "经验预估", "found": true, "func_impact_score": 65, "exp_impact_score": 65},
+        {"version": "高性能版", "brand": "通用", "package": "微型", "part_number": "8Ω 2W ×2", "description": "双声道立体声", "price_mall": null, "mall_source": "", "mall_url": "", "price_ai": 9.0, "ai_source": "经验预估", "found": true, "func_impact_score": 80, "exp_impact_score": 80}
+      ]
+    },
+    {
+      "id": 10,
+      "category": "无线充电底座",
+      "is_variant": true,
+      "cost_tier": "high",
+      "user_value": "中",
+      "func_impact": "魔法棒待机/充电基座，含外壳和 USB-C 输入",
+      "exp_impact": "底座颜值与稳定性影响品牌感",
+      "func_impact_label": "重要",
+      "exp_impact_label": "重要",
+      "note": "底座是独立 SKU，BOM 已含发射方案 + USB-C 口 + 外壳",
+      "variants": [
+        {"version": "经济版", "brand": "XKT", "package": "Set", "part_number": "XKT-412 5W发射 + USB-C", "description": "5W 发射方案，整套含外壳与线圈", "price_mall": null, "mall_source": "", "mall_url": "", "price_ai": 18.0, "ai_source": "经验预估", "found": true, "func_impact_score": 55, "exp_impact_score": 55},
+        {"version": "标准版", "brand": "ConvenientPower", "package": "Set", "part_number": "CPS8100 7.5W发射 + USB-C PD", "description": "7.5W 发射 + PD 输入", "price_mall": null, "mall_source": "", "mall_url": "", "price_ai": 25.0, "ai_source": "经验预估", "found": true, "func_impact_score": 75, "exp_impact_score": 75},
+        {"version": "高性能版", "brand": "ConvenientPower", "package": "Set", "part_number": "15W发射 + USB-C PD3.0", "description": "15W 快充 + PD3.0 输入 + 散热", "price_mall": null, "mall_source": "", "mall_url": "", "price_ai": 42.0, "ai_source": "经验预估", "found": true, "func_impact_score": 95, "exp_impact_score": 90}
+      ]
+    },
+    {
+      "id": 11,
+      "category": "WiFi/BT 模组",
+      "is_variant": true,
+      "cost_tier": "mid",
+      "user_value": "高",
+      "func_impact": "联网调用云端 AI；蓝牙连接配套手机 App",
+      "exp_impact": "WiFi5+BT5 模组户外信号更稳",
+      "func_impact_label": "关键",
+      "exp_impact_label": "重要",
+      "note": "经/标版主控内置，无需独立模组",
+      "variants": [
+        {"version": "经济版", "brand": "主控内置", "package": "-", "part_number": "ESP32-S3 内置 WiFi4+BT5", "description": "ESP32-S3 集成，无需外挂", "price_mall": null, "mall_source": "", "mall_url": "", "price_ai": 0, "ai_source": "经验预估", "found": true, "func_impact_score": 55, "exp_impact_score": 55},
+        {"version": "标准版", "brand": "主控内置", "package": "-", "part_number": "ESP32-P4 + 外挂 ESP32-C6", "description": "P4 通过 SDIO 连接 C6，WiFi6+BLE5", "price_mall": null, "mall_source": "", "mall_url": "", "price_ai": 8.0, "ai_source": "博查", "found": true, "func_impact_score": 75, "exp_impact_score": 75},
+        {"version": "高性能版", "brand": "AMPAK(正基)", "package": "Module", "part_number": "AP6256", "description": "WiFi5 + BT5 二合一模组，户外稳", "price_mall": 33.12, "mall_source": "立创商城", "mall_url": "https://item.szlcsc.com/5960630.html", "price_ai": 35.0, "ai_source": "博查", "found": true, "func_impact_score": 95, "exp_impact_score": 90}
+      ]
+    },
+    {
+      "id": 12,
+      "category": "充电管理 IC",
+      "is_variant": true,
+      "cost_tier": "low",
+      "user_value": "中",
+      "func_impact": "锂电池充电管理 + 升压",
+      "exp_impact": "标/高版集成升压，PCB 面积省",
+      "func_impact_label": "重要",
+      "exp_impact_label": "一般",
+      "note": "高性能版用 RK817 配套 PMIC",
+      "variants": [
+        {"version": "经济版", "brand": "MSKSEMI(美森科)", "package": "SOP-8", "part_number": "TP4056-MS + MT3608", "description": "TP4056 充电 + MT3608 升压", "price_mall": 0.2, "mall_source": "立创商城", "mall_url": "https://item.szlcsc.com/8533532.html", "price_ai": 0.5, "ai_source": "经验预估", "found": true, "func_impact_score": 60, "exp_impact_score": 55},
+        {"version": "标准版", "brand": "INJOINIC(英集芯)", "package": "QFN", "part_number": "IP5306", "description": "集成升压+充电+电量计", "price_mall": 0.84, "mall_source": "立创商城", "mall_url": "https://item.szlcsc.com/193089.html", "price_ai": 1.2, "ai_source": "博查", "found": true, "func_impact_score": 80, "exp_impact_score": 75},
+        {"version": "高性能版", "brand": "Rockchip", "package": "QFN", "part_number": "RK817 PMIC", "description": "RK3566 配套 PMIC，多路 DCDC+LDO+充电", "price_mall": null, "mall_source": "", "mall_url": "", "price_ai": 8.0, "ai_source": "经验预估", "found": true, "func_impact_score": 95, "exp_impact_score": 85}
+      ]
+    },
+    {
+      "id": 13,
+      "category": "存储/内存",
+      "is_variant": true,
+      "cost_tier": "mid",
+      "user_value": "中",
+      "func_impact": "存固件、模型、用户数据",
+      "exp_impact": "高性能版需 DDR+eMMC 跑 Linux 与小模型",
+      "func_impact_label": "重要",
+      "exp_impact_label": "重要",
+      "note": "经/标版用 SoC 内置或外挂 NOR",
+      "variants": [
+        {"version": "经济版", "brand": "Espressif 集成", "package": "Module", "part_number": "16MB Flash+8MB PSRAM (内置)", "description": "ESP32-S3-N16R8 内置", "price_mall": null, "mall_source": "", "mall_url": "", "price_ai": 0, "ai_source": "经验预估", "found": true, "func_impact_score": 55, "exp_impact_score": 55},
+        {"version": "标准版", "brand": "Winbond", "package": "SOP-8", "part_number": "W25Q128 (16MB NOR)", "description": "外挂 NOR 存固件", "price_mall": null, "mall_source": "", "mall_url": "", "price_ai": 3.2, "ai_source": "经验预估", "found": true, "func_impact_score": 70, "exp_impact_score": 65},
+        {"version": "高性能版", "brand": "海力士/三星", "package": "BGA+BGA", "part_number": "DDR4 1GB + eMMC 8GB", "description": "DDR + eMMC，跑 Android/Linux", "price_mall": null, "mall_source": "", "mall_url": "", "price_ai": 40.0, "ai_source": "经验预估", "found": true, "func_impact_score": 100, "exp_impact_score": 95}
+      ]
+    },
+    {
+      "id": 14,
+      "category": "GPS 定位（可选）",
+      "is_variant": true,
+      "cost_tier": "mid",
+      "user_value": "中",
+      "func_impact": "户外探索定位记录路径",
+      "exp_impact": "户外打卡+任务地标，体验加分",
+      "func_impact_label": "一般",
+      "exp_impact_label": "重要",
+      "note": "经/标版省略，软件用基站定位降级",
+      "variants": [
+        {"version": "经济版", "brand": "-", "package": "-", "part_number": "未配置", "description": "WiFi/IP 定位降级", "price_mall": null, "mall_source": "", "mall_url": "", "price_ai": 0, "ai_source": "经验预估", "found": true, "func_impact_score": 30, "exp_impact_score": 30},
+        {"version": "标准版", "brand": "-", "package": "-", "part_number": "未配置", "description": "WiFi/IP 定位降级", "price_mall": null, "mall_source": "", "mall_url": "", "price_ai": 0, "ai_source": "经验预估", "found": true, "func_impact_score": 30, "exp_impact_score": 30},
+        {"version": "高性能版", "brand": "中科微", "package": "Module", "part_number": "ATGM336H", "description": "全系统 GNSS 模组，户外探索原生定位", "price_mall": null, "mall_source": "", "mall_url": "", "price_ai": 12.0, "ai_source": "经验预估", "found": true, "func_impact_score": 90, "exp_impact_score": 90}
+      ]
+    },
+    {
+      "id": 15,
+      "category": "触觉马达",
+      "is_variant": false,
+      "brand": "通用",
+      "package": "线性马达",
+      "part_number": "LRA 0832/1040",
+      "description": "执行任务时震动反馈，提升交互沉浸感",
+      "price_mall": null,
+      "mall_source": "",
+      "mall_url": "",
+      "price_ai": 3.5,
+      "ai_source": "经验预估",
+      "found": true,
+      "cost_tier": "low",
+      "user_value": "中",
+      "func_impact": "震动反馈触发提示",
+      "exp_impact": "LRA 比转子马达手感细腻",
+      "func_impact_label": "一般",
+      "exp_impact_label": "一般",
+      "note": "三版本通用，结构件"
+    },
+    {
+      "id": 16,
+      "category": "按键",
+      "is_variant": false,
+      "brand": "通用",
+      "package": "SMD",
+      "part_number": "侧键×2 + 触发键×1",
+      "description": "侧键唤醒/确认，触发键拍照/录音",
+      "price_mall": null,
+      "mall_source": "",
+      "mall_url": "",
+      "price_ai": 0.6,
+      "ai_source": "经验预估",
+      "found": true,
+      "cost_tier": "low",
+      "user_value": "低",
+      "func_impact": "物理交互入口",
+      "exp_impact": "手感影响第一印象",
+      "func_impact_label": "一般",
+      "exp_impact_label": "一般",
+      "note": "三版本通用"
+    },
+    {
+      "id": 17,
+      "category": "氛围灯",
+      "is_variant": false,
+      "brand": "WORLDSEMI",
+      "package": "SMD 5050",
+      "part_number": "WS2812B ×2",
+      "description": "RGB 可编程氛围灯，配合 IP 形象色彩同步",
+      "price_mall": null,
+      "mall_source": "",
+      "mall_url": "",
+      "price_ai": 0.6,
+      "ai_source": "经验预估",
+      "found": true,
+      "cost_tier": "low",
+      "user_value": "中",
+      "func_impact": "提示与品牌氛围",
+      "exp_impact": "夜间户外效果加分",
+      "func_impact_label": "一般",
+      "exp_impact_label": "一般",
+      "note": "三版本通用"
+    },
+    {
+      "id": 18,
+      "category": "PCB/被动器件",
+      "is_variant": true,
+      "cost_tier": "mid",
+      "user_value": "低",
+      "func_impact": "PCB 承载 + 电阻电容电感连接器",
+      "exp_impact": "层数与板厚不直接影响用户感知",
+      "func_impact_label": "一般",
+      "exp_impact_label": "一般",
+      "note": "2000 套均摊",
+      "variants": [
+        {"version": "经济版", "brand": "-", "package": "-", "part_number": "双面 PCB + 阻容晶振", "description": "结构简单", "price_mall": null, "mall_source": "", "mall_url": "", "price_ai": 8.0, "ai_source": "经验预估", "found": true, "func_impact_score": 50, "exp_impact_score": 50},
+        {"version": "标准版", "brand": "-", "package": "-", "part_number": "四层 PCB + 阻容晶振 + USB-C", "description": "AMOLED FPC 接口", "price_mall": null, "mall_source": "", "mall_url": "", "price_ai": 12.0, "ai_source": "经验预估", "found": true, "func_impact_score": 60, "exp_impact_score": 60},
+        {"version": "高性能版", "brand": "-", "package": "-", "part_number": "六层 PCB + 阻容晶振 + MIPI 走线", "description": "复杂层叠，DDR 阻抗匹配", "price_mall": null, "mall_source": "", "mall_url": "", "price_ai": 23.0, "ai_source": "经验预估", "found": true, "func_impact_score": 70, "exp_impact_score": 65}
+      ]
+    }
+  ]
+}

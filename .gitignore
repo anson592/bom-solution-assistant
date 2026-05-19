@@ -4,8 +4,10 @@ __pycache__/
 *.pyo
 
 # 敏感数据 - 用户自己的 Cookie 和 API Key
-data/lcsc_cookies.json
 .env
+
+# 运行时产物 - 不提交历史数据和生成报告
+data/
 
 # IDE
 .vscode/

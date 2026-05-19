@@ -8,9 +8,9 @@
     "project":        { "type": "string", "description": "项目名称" },
     "date":           { "type": "string", "description": "查询日期 YYYY-MM-DD" },
     "query_time":     { "type": "string", "description": "查询时间 HH:MM" },
-    "quantity":       { "type": "string", "description": "目标产量描述" },
-    "total_quantity": { "type": "string", "description": "总需求量，如 100000" },
-    "batch_quantity": { "type": "string", "description": "每批次数量，如 5000" },
+    "quantity":       { "type": ["string", "number"], "description": "目标产量描述" },
+    "total_quantity": { "type": ["string", "number"], "description": "总需求量，如 100000" },
+    "batch_quantity": { "type": ["string", "number"], "description": "每批次数量，如 5000" },
     "versions":       { "type": "array",  "items": { "type": "string" }, "description": "版本列表" },
     "selected_version":{ "type": "string", "description": "用户选中版本" },
     "ai_suggestion":  { "type": "string", "description": "AI推荐建议" },
@@ -27,6 +27,7 @@
     },
     "items": {
       "type": "array",
+      "minItems": 1,
       "items": {
         "oneOf": [
           { "$ref": "#/definitions/variant_item" },
@@ -37,6 +38,7 @@
   },
   "definitions": {
     "variant_item": {
+      "type": "object",
       "required": ["id", "category", "is_variant", "variants"],
       "properties": {
         "id":           { "type": "integer" },
@@ -45,11 +47,18 @@
         "func_impact":  { "type": "string" },
         "exp_impact":   { "type": "string" },
         "cost_tier":    { "type": "string", "enum": ["high","mid","low"] },
+        "user_value":   { "type": "string", "enum": ["低","中","高"] },
         "note":         { "type": "string" },
-        "variants":     { "type": "array", "items": { "$ref": "#/definitions/variant" } }
+        "variants": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/definitions/variant" },
+          "description": "必须是 JSON 数组 [...]，禁止写成 {\"经济版\": ...} 对象"
+        }
       }
     },
     "shared_item": {
+      "type": "object",
       "required": ["id", "category", "is_variant", "part_number"],
       "properties": {
         "id":             { "type": "integer" },
@@ -59,24 +68,25 @@
         "package":        { "type": "string" },
         "part_number":    { "type": "string" },
         "description":    { "type": "string" },
-        "price_mall":     { "type": ["number", "null"], "description": "商城价（立创/华秋取最低，查不到留空）" },
-        "mall_source":    { "type": ["string", "null"], "description": "商城来源：立创商城 / 华秋商城 / 云汉芯城 / LCSC" },
-        "mall_url":       { "type": ["string", "null"], "format": "uri", "description": "商城链接（仅确认商城来源才有，可点击）" },
-        "price_ai":       { "type": ["number", "null"], "description": "AI价（博查/IQS，查不到留空）" },
-        "ai_source":      { "type": ["string", "null"], "description": "AI来源：博查 / iqs / 经验预估（无链接）" },
-        "price_unit":     { "type": ["number", "null"], "description": "小计（由 generate_report.py 自动计算，无需 LLM 填写）" },
+        "price_mall":     { "type": ["number", "null"], "description": "商城价（立创/华秋取最低，查不到留 null）" },
+        "mall_source":    { "type": ["string", "null"], "description": "商城来源：立创商城/华秋商城/云汉芯城/LCSC；商城未查到 → 空字符串（推荐）或 null。严禁填 AI 来源（博查/IQS/经验预估）" },
+        "mall_url":       { "type": ["string", "null"], "description": "商城链接（仅确认商城来源才有）；其他情况 → 空字符串（推荐）或 null" },
+        "price_ai":       { "type": ["number", "null"], "description": "AI价（博查/IQS/经验估算）" },
+        "ai_source":      { "type": ["string", "null"], "description": "AI来源；推荐: 博查 / iqs / 经验预估 / 空" },
+        "price_unit":     { "type": ["number", "null"], "description": "小计（由 generate_report.py 自动计算，LLM 无需填写）" },
         "found":          { "type": "boolean", "description": "是否有任一真实价格（商城价或AI价）" },
-        "cost_ratio":     { "type": "number", "description": "成本占比 %（由 generate_report.py 自动计算，无需 LLM 填写）" },
+        "cost_ratio":     { "type": "number", "description": "成本占比 %（由 generate_report.py 自动计算）" },
         "cost_tier":      { "type": "string" },
         "func_impact":    { "type": "string" },
         "exp_impact":     { "type": "string" },
         "func_impact_label": { "type": "string" },
         "exp_impact_label":  { "type": "string" },
-        "user_value":     { "type": "integer", "minimum": 1, "maximum": 5 },
+        "user_value":     { "type": "string", "enum": ["低","中","高"] },
         "note":           { "type": "string" }
       }
     },
     "variant": {
+      "type": "object",
       "required": ["version", "part_number"],
       "properties": {
         "version":          { "type": "string" },
@@ -85,10 +95,10 @@
         "part_number":      { "type": "string" },
         "description":      { "type": "string" },
         "price_mall":       { "type": ["number", "null"] },
-        "mall_source":      { "type": ["string", "null"] },
-        "mall_url":         { "type": ["string", "null"] },
+        "mall_source":      { "type": ["string", "null"], "description": "商城来源；商城未查到 → 空字符串（推荐）或 null。严禁填 AI 来源" },
+        "mall_url":         { "type": ["string", "null"], "description": "商城链接；其他情况 → 空字符串（推荐）或 null" },
         "price_ai":         { "type": ["number", "null"] },
-        "ai_source":         { "type": ["string", "null"] },
+        "ai_source":        { "type": ["string", "null"], "description": "AI来源；推荐: 博查 / iqs / 经验预估 / 空" },
         "price_unit":       { "type": ["number", "null"], "description": "小计（脚本自动计算）" },
         "found":            { "type": "boolean" },
         "cost_ratio":       { "type": "number", "description": "成本占比 %（脚本自动计算）" },
