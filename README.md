@@ -1,6 +1,6 @@
 # BOM Solution Assistant
 
-> WorkBuddy Skill · 智能 BOM 解决方案助手
+> Skill · 智能 BOM 解决方案助手
 
 从产品需求反推 BOM 清单（支持经济版/标准版/高性能版多版本对比），或直接读取 BOM 表，跨多个平台查询最低价，生成带来源链接的比价单。
 
